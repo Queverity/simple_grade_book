@@ -20,6 +20,11 @@
         # have user enter student name and id
         # create student object and save to csv
 
+    # remove_student(self):
+        # go through catalog and print out student names and ids
+        # ask user who they would like to remove
+        # remove that student from catalog
+
     # find_average(self):
         # go through catalog, and add each grade in each students list to one big list
         # sum that list and divide by length to find average
@@ -27,3 +32,6 @@
     # find_high_low(self):
         # use lambda function to sort catalog list
         # highest will be last index, lowest will be first index (sort based on average)
+
+# def initialize_catalog(students):
+    # iterate through students list after loading from CSV and add them one by one to the catalog
