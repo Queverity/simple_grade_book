@@ -35,3 +35,52 @@
 
 # def initialize_catalog(students):
     # iterate through students list after loading from CSV and add them one by one to the catalog
+    # okay so actually since you can save lists to CSVs, just set it to that
+
+class Gradebook():
+
+    def __init__(self,catalog):
+        self.catalog = catalog
+    
+    def search_student(self,query,mode):
+        students = []
+        if mode == "name":
+            for i in self.catalog:
+                if query.title() == i.name.title():
+                    students.append(i)
+                else:
+                    pass
+        else:
+            for i in self.catalog:
+                if query.title() == i.id:
+                    students.append(i)
+                    break
+                else:
+                    pass
+        
+        return students
+
+    def edit_student(self):
+        if bool(self.catalog) == False:
+            print("You have no students saved in your gradebook.")
+            return
+        while True:
+            for i in self.catalog:
+                print(f"Name: {i.name} | ID {i.id}")
+                      
+            choice = input("Enter ID of student you want to edit:\n").strip()
+
+            found = False
+            for i in self.catalog:
+                if choice == i.id.strip():
+                    found = True
+                    print(f"How would you like to edit student {self.id}?")
+                else:
+                    pass
+            
+            if found == False:
+                print("Please enter a valid ID.")
+                continue
+            else:
+                pass
+
