@@ -18,3 +18,9 @@ def continue_screen():
 def after_action():
     continue_screen()
     clear_screen()
+
+def find_dict_index(list_of_dicts, key, value):
+    for index, d in enumerate(list_of_dicts):
+        if d.get(key) == value:
+            return index  
+    return -1

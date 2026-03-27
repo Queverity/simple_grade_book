@@ -40,15 +40,16 @@ from helper import *
         # student_object = Student(name,id)
 
 class Student:
-    def __init__(self,name,student_id,academic_standing,grade_level,grades_list = []):
+    def __init__(self,name,student_id,academic_standing,grade_level,average,grades_list = []):
         self.name = name
         self.student_id = student_id
         self.academic_standing = academic_standing
         self.grade_level = grade_level
         self.grades_list = grades_list
+        self.average = average
 
     def __str__(self):
-        print(f"Student Name: {self.name} | Student ID: {self.id} | Academic Standing: {self.academic_standing} | Grade Level: {self.grade_level}")
+        return f"Student Name: {self.name} | Student ID: {self.id} | Academic Standing: {self.academic_standing} | Grade Level: {self.grade_level}"
 
     def view_grades(self):
         for i in self.grades_list:
@@ -64,6 +65,32 @@ class Student:
         grade_average = float(grades_summed / grades_length)
 
         return grade_average
+    
+    def calculate_letter(self):
+        if self.average >= 94:
+            return "A"
+        elif self.average >= 90:
+            return "A-"
+        elif self.average >= 87:
+            return "B+"
+        elif self.average >= 84:
+            return "B"
+        elif self.average >= 80:
+            return "B-"
+        elif self.average >= 77:
+            return "C+"
+        elif self.average >= 74:
+            return "C"
+        elif self.average >= 70:
+            return "C-"
+        elif self.average >= 67:
+            return "D+"
+        elif self.average >= 64:
+            return "D"
+        elif self.average >= 61:
+            return "D-"
+        else:
+            return "F"
 
     def find_standing(self,grade_average):
         if grade_average >= 90:
@@ -94,8 +121,9 @@ class Student:
                         self.grades_list.append(new_grade)
                         print("Grade added!")
                         average = self.calculate_average()
-                        academic_standing = self.find_standing(average)
-                        return average, academic_standing
+                        self.academic_standing = self.find_standing(average)
+                        after_action()
+                        
     
     def remove_grade(self):
         while True:
@@ -116,9 +144,11 @@ class Student:
                 else:
                     self.grades_list.pop(grade)
                     print("Grade removed.")
-                    average = self.calculate_average()
-                    academic_standing = self.find_standing(average)
-                    return average, academic_standing
+                    self.average = self.calculate_average()
+                    self.academic_standing = self.find_standing(self.average)
+                    after_action()
+                    return
+
                 
 def create_student(name,id,academic_standing,grade_level,grades):
     if bool(grades) == False:
