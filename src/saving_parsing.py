@@ -1,6 +1,7 @@
 # CB 1st Saving Parsing Files
 
 import csv
+from helper import *
 
 # def load_students():
     # use with open to load the file so it will close on its own
@@ -30,7 +31,9 @@ def load_students():
             students.append(i)
 
         for i in students:
-            i['grade_average'] = float([i['grade_average']])
+            print(i['grade_average'])
+
+        after_action()
 
         return students
     

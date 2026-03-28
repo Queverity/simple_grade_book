@@ -21,13 +21,13 @@ def main_interface():
         current_gradebook = Gradebook()
 
         for i in students:
-            student_object = create_student(i[0],i[1],i[2],i[3],i[4],i[5])
+            student_object = create_student(i['name'],i['id'],i['academic_standing'],i['grade_level'],i['grades'],i['grade_average'])
             current_gradebook.catalog.append(student_object)
 
         if students == False:
             continue
 
-        print("What would you like to do? 1. View All Students\n2. Add Student\n3. Remove Student\n4. Search Gradebook\n5. Edit Student\n6. Class Statistics\n7. Save Gradebook\n8. Exit")
+        print("What would you like to do?\n1. View All Students\n2. Add Student\n3. Remove Student\n4. Search Gradebook\n5. Edit Student\n6. Class Statistics\n7. Save Gradebook\n8. Exit")
         choice = input("Enter number 1 - 8:\n").strip()
 
         clear_screen()
