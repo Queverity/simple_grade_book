@@ -16,10 +16,68 @@ from saving_parsing import *
 
 def main_interface():
     while True:
-        file_path = input("Enter file path of gradebook you want to load:\n").strip()
-        succesful_load = load_students(file_path)
-        if succesful_load == False:
+        students = load_students()
+
+        current_gradebook = Gradebook()
+
+        for i in students:
+            student_object = create_student(i[0],i[1],i[2],i[3],i[4],i[5])
+            current_gradebook.catalog.append(student_object)
+
+        if students == False:
             continue
+
+        print("What would you like to do? 1. View All Students\n2. Add Student\n3. Remove Student\n4. Search Gradebook\n5. Edit Student\n6. Class Statistics\n7. Save Gradebook\n8. Exit")
+        choice = input("Enter number 1 - 8:\n").strip()
+
+        clear_screen()
+
+        match choice:
+            case '1':
+                current_gradebook.view_all()
+                continue
+            case '2':
+                current_gradebook.add_student()
+                continue
+            case '3':
+                current_gradebook.remove_student()
+                continue
+            case '4':
+                while True:
+                    mode = input("Would you like to search by student name or student ID?").lower().strip()
+                    if mode != 'name' and mode != 'id':
+                        print("Please enter a valid answer.")
+                        after_action()
+                        continue
+
+                    query = input("Enter ID or name of student(s) you want to search for:\n").strip()
+                    
+                    found_students = current_gradebook.search_student(query,mode)
+
+                    for i in found_students:
+                        print(i)
+
+                    after_action()
+            case '5':
+                current_gradebook.edit_student()
+                continue
+            case '6':
+                average = current_gradebook.find_average()
+                high, low = current_gradebook.find_high_low()
+                print(f"Class Grade Average: {average}%\nHighest Grade: {high.average}%\nLowest Grade: {low.average}")
+                after_action()
+                continue
+            case '7':
+                save_students(students)
+                print("File saved.")
+                after_action
+            case '8':
+                print("Goodbye!")
+                return
+            case _:
+                print("Please enter a number between 1 and 8.")
+                after_action()
+
 
         
 

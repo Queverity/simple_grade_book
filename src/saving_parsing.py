@@ -16,40 +16,27 @@ import csv
     # to be used if user enters a file path that leads to a non-existent file
     # create the file with the proper fieldnames, found in students.csv
 
-def initalize_students(file_path):
-    try:
-        with open(file_path, mode = "w") as students:
-            fieldnames = ['name','id','academic_standing','grade_level','grades','grade_average']
-            writer = csv.writer(students)
-            writer.write(fieldnames)
-    except:
-        print("Invalid file name")
-        return False
-    else:
+def load_students():
+    
+    with open("documents/students.csv", mode="r") as students:
+        fieldnames = ['name','id','academic_standing','grade_level','grades','grade_average']
+        reader = csv.DictReader(students,fieldnames)
+        next(students)
+
         students = []
-        return students
 
-def load_students(file_path):
-    try:
-        with open(file_path, mode="r") as students:
-            fieldnames = ['name','id','academic_standing','grade_level','grades','grade_average']
-            reader = csv.DictReader()
-            next(students)
+        for i in reader:
+            i['grades'] = list([i['grades']])
+            students.append(i)
 
-            students = []
+        for i in students:
+            i['grade_average'] = float([i['grade_average']])
 
-            for i in reader:
-                i['grades'] = list[i['grades']]
-                i['grade_average'] = float[i['grade_average']]
-                students.append(i)
-    except:
-        students = initalize_students(file_path)
-        return students
-    else:
         return students
     
-def save_students(file_path,students):
-    with open(file_path,mode="w",newline="") as students:
+    
+def save_students(students):
+    with open("documents/students.csv",mode="w",newline="") as students:
         fieldnames = ['name','id','academic_standing','grade_level','grades','grade_average']
         writer = csv.DictWriter(students)
         basic_writer = csv.writer(students)

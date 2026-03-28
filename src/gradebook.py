@@ -2,6 +2,7 @@
 
 from student import *
 from helper import *
+from saving_parsing import save_students
 
 # class Gradebook():
     # def __init__(self, catalog = []):
@@ -46,11 +47,11 @@ grade_levels = ["9th","10th","11th","12th"]
 
 class Gradebook():
 
-    def __init__(self,catalog):
+    def __init__(self,catalog = []):
         self.catalog = catalog
     
     def search_student(self,query,mode):
-        students = []
+        found_students = []
         if mode == "name":
             for i in self.catalog:
                 if query.title() == i.name.title():
@@ -147,7 +148,10 @@ class Gradebook():
                 else:
                     pass
             academic_standing = "N/A"
-            create_student(student_name,student_id,academic_standing,student_level,grades=[])
+            student_object = create_student(student_name,student_id,academic_standing,student_level,grades=[])
+            self.catalog.append(student_object)
+
+            after_action()
     
     def remove_student(self):
         for i in self.catalog:
@@ -160,7 +164,7 @@ class Gradebook():
                     student_index = find_dict_index(self.catalog,"id",i.id)
                     self.catalog.pop(student_index)
                     print("Student succesfully removed.")
-                    after_action
+                    after_action()
                     return
             
             print("That student could not be found.")

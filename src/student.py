@@ -150,11 +150,11 @@ class Student:
                     return
 
                 
-def create_student(name,id,academic_standing,grade_level,grades):
+def create_student(name,id,academic_standing,grade_level,average,grades):
     if bool(grades) == False:
-        student_object = Student(name,id,academic_standing,grade_level)
+        student_object = Student(name,id,academic_standing,average,grade_level)
     else:
-        student_object  = Student(name,id,academic_standing,grade_level,grades)
+        student_object  = Student(name,id,academic_standing,average,grade_level,grades)
 
     return student_object
 
