@@ -40,9 +40,9 @@ from helper import *
         # student_object = Student(name,id)
 
 class Student:
-    def __init__(self,name,student_id,academic_standing,grade_level,average,grades_list = []):
+    def __init__(self,name,id,academic_standing,grade_level,average,grades_list = []):
         self.name = name
-        self.student_id = student_id
+        self.id = id
         self.academic_standing = academic_standing
         self.grade_level = grade_level
         self.grades_list = grades_list

@@ -1,2 +1,3 @@
 name,id,academic_standing,grade_level,grades,grade_average
 John Test,1234,Honor Roll,10th,"[90,90,90]",90
+Dale Data,4321,Needs Improvement,12th,"[50,40,60]",50

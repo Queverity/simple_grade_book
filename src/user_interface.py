@@ -15,17 +15,16 @@ from saving_parsing import *
         # call appropiate methods
 
 def main_interface():
+    students = load_students()
+
+    current_gradebook = Gradebook()
+
+    for i in students:
+        
+        current_gradebook.catalog.append(create_student(i['name'],i['id'],i['academic_standing'],i['grade_level'],i['grades'],i['grade_average']))
+        
     while True:
-        students = load_students()
-
-        current_gradebook = Gradebook()
-
-        for i in students:
-            student_object = create_student(i['name'],i['id'],i['academic_standing'],i['grade_level'],i['grades'],i['grade_average'])
-            current_gradebook.catalog.append(student_object)
-
-        if students == False:
-            continue
+        
 
         print("What would you like to do?\n1. View All Students\n2. Add Student\n3. Remove Student\n4. Search Gradebook\n5. Edit Student\n6. Class Statistics\n7. Save Gradebook\n8. Exit")
         choice = input("Enter number 1 - 8:\n").strip()

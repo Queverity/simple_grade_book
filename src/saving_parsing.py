@@ -27,13 +27,7 @@ def load_students():
         students = []
 
         for i in reader:
-            i['grades'] = list([i['grades']])
             students.append(i)
-
-        for i in students:
-            print(i['grade_average'])
-
-        after_action()
 
         return students
     

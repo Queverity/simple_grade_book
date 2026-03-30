@@ -55,18 +55,18 @@ class Gradebook():
         if mode == "name":
             for i in self.catalog:
                 if query.title() == i.name.title():
-                    students.append(i)
+                    found_students.append(i)
                 else:
                     pass
         else:
             for i in self.catalog:
                 if query.title() == i.id:
-                    students.append(i)
+                    found_students.append(i)
                     break
                 else:
                     pass
         
-        return students
+        return found_students
 
     def edit_student(self):
         if bool(self.catalog) == False:
@@ -141,17 +141,15 @@ class Gradebook():
                 continue
 
             student_id = input("Enter ID for new student:\n").strip()
-            for i in self.catalog:
-                if i.id == student_id:
-                    print("There is already a student with that ID saved in your gradebook.")
-                    continue
-                else:
-                    pass
-            academic_standing = "N/A"
-            student_object = create_student(student_name,student_id,academic_standing,student_level,grades=[])
-            self.catalog.append(student_object)
+            break
 
-            after_action()
+        academic_standing = "N/A"
+        average = "N/A"
+        
+        self.catalog.append(create_student(student_name,student_id,academic_standing,student_level,average,grades=[]))
+
+        after_action()
+        return
     
     def remove_student(self):
         for i in self.catalog:
@@ -172,7 +170,7 @@ class Gradebook():
 
     def view_all(self):
         for i in self.catalog:
-            print(i + f" | Letter Grade: {i.calculate_letter}")
+            print(i,f" | Letter Grade: {i.calculate_letter}")
 
         after_action()
 
