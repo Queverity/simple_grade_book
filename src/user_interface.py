@@ -15,6 +15,7 @@ from saving_parsing import *
         # call appropiate methods
 
 def main_interface():
+    # first, load students from CSV, then turn students into class objects, then put each object into gradebook catalog
     students = load_students()
 
     current_gradebook = Gradebook()
@@ -25,36 +26,44 @@ def main_interface():
         
     while True:
         
-
+        # give user options on what to do
         print("What would you like to do?\n1. View All Students\n2. Add Student\n3. Remove Student\n4. Search Gradebook\n5. Edit Student\n6. Class Statistics\n7. Save Gradebook\n8. Exit")
         choice = input("Enter number 1 - 8:\n").strip()
 
         clear_screen()
 
+        # compare user input to available options
         match choice:
             case '1':
+                # call view all method from gradebook class
                 current_gradebook.view_all()
                 continue
             case '2':
+                # call add student method from gradebook class
                 current_gradebook.add_student()
                 continue
             case '3':
+                # call remove student method from gradebook class
                 current_gradebook.remove_student()
                 continue
             case '4':
                 while True:
+                    # have user choose how they would like to search
                     mode = input("Would you like to search by student name or student ID? ID/Name:\n").lower().strip()
                     if mode != 'name' and mode != 'id':
                         print("Please enter a valid answer.")
                         after_action()
                         continue
-
+                    
+                    # have user input search term
                     query = input("Enter ID or name of student(s) you want to search for:\n").strip()
                     
+                    # run serach students method from gradebook class
                     found_students = current_gradebook.search_student(query,mode)
 
                     print("Students Found:")
 
+                    # go through found students and print out basic info, as well as each grade
                     for i in found_students:
                         print(i)
                         print(i.view_grades())
@@ -63,9 +72,11 @@ def main_interface():
                     break
                 continue
             case '5':
+                # call edit student method from gradebook class
                 current_gradebook.edit_student()
                 continue
             case '6':
+                # find average, high student, and low student, then print out along with number of students in class
                 average = current_gradebook.find_average()
                 average = round(average,2)
                 high, low = current_gradebook.find_high_low()
@@ -74,13 +85,16 @@ def main_interface():
                 after_action()
                 continue
             case '7':
+                # call save students method from gradebook class
                 current_gradebook.save_students()
                 print("File saved.")
                 after_action
             case '8':
+                # break from function
                 print("Goodbye!")
                 return
             case _:
+                # stupid proofing
                 print("Please enter a number between 1 and 8.")
                 after_action()
 

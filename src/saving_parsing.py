@@ -18,15 +18,20 @@ from helper import *
     # create the file with the proper fieldnames, found in students.csv
 
 def load_students():
-    
+    # use with open to make sure the file closes on its own
     with open("documents/students.csv", mode="r") as students:
         fieldnames = ['name','id','academic_standing','grade_level','grade1','grade2','grade3','grade4','grade5','grade6','grade7','grade8','average']
         reader = csv.DictReader(students,fieldnames)
+        # done so fieldnames is not read
         next(students)
 
+        # create list for student dictionaries to be held in
         students = []
 
+        # append each student dictionary to list
         for i in reader:
             students.append(i)
 
+        # return students list
         return students
+    

@@ -40,6 +40,7 @@ from helper import *
         # student_object = Student(name,id)
 
 class Student:
+    # attributes important for student, along with each grade slot
     def __init__(self,name,id,academic_standing,grade_level,average):
         self.name = name
         self.id = id
@@ -56,9 +57,11 @@ class Student:
         self.grade8 = "N/A"
 
     def __str__(self):
+        # print out important information of student
         return f"Student Name: {self.name} | Student ID: {self.id} | Academic Standing: {self.academic_standing} | Grade Level: {self.grade_level}"
 
     def grade_check(self):
+        # see if all grade slots are taken, or if all grade slots are empty
         if self.grade1 != "N/A" and self.grade2 != "N/A" and self.grade3 != "N/A" and self.grade4 != "N/A" and self.grade5 != "N/A" and self.grade6 != "N/A" and self.grade7 != "N/A" and self.grade8 != "N/A":
             return "Full"
         elif self.grade1 == "N/A" and self.grade2 == "N/A" and self.grade3 == "N/A" and self.grade4 == "N/A" and self.grade5 == "N/A" and self.grade6 == "N/A" and self.grade7 == "N/A" and self.grade8 == "N/A":
@@ -67,11 +70,12 @@ class Student:
             return
 
     def view_grades(self):
+        # print out each grade slot
         return f"Grade One: {self.grade1}\nGrade Two: {self.grade2}\nGrade Three: {self.grade3}\nGrade Four: {self.grade4}\nGrade Five: {self.grade5}\nGrade Six: {self.grade6}\nGrade Seven: {self.grade7}\nGrade Eight: {self.grade8}\n"
         
 
     def calculate_average(self):
-        
+        # for each grade that actually has a number in it, increase length by one
         grades_length = 0
         if self.grade1 != "N/A":
             grades_length += 1
@@ -90,6 +94,7 @@ class Student:
         if self.grade8 != "N/A":
             grades_length += 1
 
+        # for each grade slot that actually has a number in it, add it to total
         grades_summed = 0
         if self.grade1 != "N/A":
             grades_summed += float(self.grade1)
@@ -109,15 +114,18 @@ class Student:
             grades_summed += float(self.grade8)
         
 
+        # find average by dividing sum by length, then round
         grade_average = float(grades_summed / grades_length)
         grade_average = round(grade_average,2)
 
         return grade_average
     
     def calculate_letter(self):
+        # if there is no average
         if self.average == "N/A":
             return "N/A"
 
+        # bunch of if statements to check grade compared to limits
         if float(self.average) >= 94:
             return "A"
         elif float(self.average) >= 90:
@@ -144,6 +152,7 @@ class Student:
             return "F"
 
     def find_standing(self,grade_average):
+        # few if statements to compare grade average to preset standing limits
         if grade_average >= 90:
             return "Honor Roll"
         elif grade_average >= 80:   
@@ -152,18 +161,21 @@ class Student:
             return "Needs Improvement"
         
     def add_grade(self):
+        # see if all grade slots are taken; if so, tell user as much, then return
         check = self.grade_check()
         if check == 'Full':
             print("You have added the maximum number (8) of grades to this student. If you want to change a grade, first remove one.")
             return
         
         while True:
+            # have user enter grade they want to add, or exit
             new_grade = input("Enter grade you want to add, or type 'exit' to return to gradebook menu:\n").strip().lower()
 
             if new_grade == 'exit':
                 return
             else:
                 try:
+                    # make sure grade is actually a number
                     new_grade = float(new_grade)
                 except:
                     print("Please enter an actual number.")
@@ -171,9 +183,11 @@ class Student:
                     continue
                 else:
                     if new_grade > 100 or new_grade < 0:
+                        # make sure grade is within limits
                         print("Please enter a number between 100 and 0.")
                         continue
                     else:
+                        # go through grade slots and change the first empty one to new grade
                         if self.grade1 == "N/A":
                             self.grade1 = new_grade
 
@@ -204,21 +218,27 @@ class Student:
                         return
                         
     def remove_grade(self):
+        # list of valid inputs user can enter in later on input
         valid_inputs = ['1','2','3','4','5','6','7','8']
 
         check = self.grade_check()
+        # see if there are already no grades in student
         if check == 'Empty':
             print("You have no grades entered for this student.")
             return
         while True:
+            # print out all grades
             print(f"1. {self.grade1}\n2. {self.grade2}\n3. {self.grade3}\n4. {self.grade4}\n5. {self.grade5}\n6. {self.grade6}\n7. {self.grade7}\n8. {self.grade8}")
 
+            # ask user which grade they want to remove
             grade = input("Enter the number by the grade you want to remove. If the grade is shown as N/A, no grade has been entered for that slot.:\n").strip()
 
             if grade not in valid_inputs:
-                print("Please enter a valid number.")
+                # if user has entered a number not 1 - 8
+                print("Please enter a number 1 - 8.")
             else:
                 match grade:
+                    # check which grade user entered, set it to N/A
                     case '1':
                         self.grade1 = "N/A"
                     case '2':
@@ -242,6 +262,7 @@ class Student:
     
 
                 
+# function to quickly create student object, set all grades to input grades
 def create_student(name,id,academic_standing,grade_level,average,grade1,grade2,grade3,grade4,grade5,grade6,grade7,grade8):
     student_object  = Student(name,id,academic_standing,grade_level,average)
     student_object.grade1 = grade1
