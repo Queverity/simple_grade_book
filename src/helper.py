@@ -19,8 +19,8 @@ def after_action():
     continue_screen()
     clear_screen()
 
-def find_dict_index(list_of_dicts, key, value):
-    for index, d in enumerate(list_of_dicts):
-        if d.get(key) == value:
-            return index  
+def find_object_index(list_of_objects,value):
+    for i in list_of_objects:
+        if i.id.strip() == value.strip():
+            return list_of_objects.index(i)
     return -1

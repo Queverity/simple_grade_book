@@ -20,7 +20,7 @@ from helper import *
 def load_students():
     
     with open("documents/students.csv", mode="r") as students:
-        fieldnames = ['name','id','academic_standing','grade_level','grades','grade_average']
+        fieldnames = ['name','id','academic_standing','grade_level','grade1','grade2','grade3','grade4','grade5','grade6','grade7','grade8','average']
         reader = csv.DictReader(students,fieldnames)
         next(students)
 
@@ -30,20 +30,3 @@ def load_students():
             students.append(i)
 
         return students
-    
-    
-def save_students(students):
-    with open("documents/students.csv",mode="w",newline="") as students:
-        fieldnames = ['name','id','academic_standing','grade_level','grades','grade_average']
-        writer = csv.DictWriter(students)
-        basic_writer = csv.writer(students)
-
-        basic_writer.write(fieldnames)
-
-        for i in students:
-            writer.write(i)
-
-
-        
-
-

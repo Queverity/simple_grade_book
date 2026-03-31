@@ -2,7 +2,7 @@
 
 from student import *
 from helper import *
-from saving_parsing import save_students
+import csv
 
 # class Gradebook():
     # def __init__(self, catalog = []):
@@ -54,7 +54,7 @@ class Gradebook():
         found_students = []
         if mode == "name":
             for i in self.catalog:
-                if query.title() == i.name.title():
+                if query.title() in i.name.title():
                     found_students.append(i)
                 else:
                     pass
@@ -74,7 +74,7 @@ class Gradebook():
             return
         while True:
             for i in self.catalog:
-                print(f"Name: {i.name} | ID {i.id}")
+                print(f"Name: {i.name} | ID: {i.id}")
                       
             choice = input("Enter ID of student you want to edit:\n").strip()
 
@@ -83,7 +83,7 @@ class Gradebook():
                 if choice == i.id.strip():
                     found = True
                     while True:
-                        print(f"How would you like to edit student {self.id}?\n1. Add Grade\n2. Remove Grade\n3. Change Name\n4. Change ID\n5. Return to Gradebook Menu")
+                        print(f"How would you like to edit student {i.id}?\n1. Add Grade\n2. Remove Grade\n3. Change Name\n4. Change ID\n5. Return to Gradebook Menu")
 
                         choice = input("Enter number:\n").strip()
 
@@ -92,6 +92,7 @@ class Gradebook():
                         match choice:
                             case "1":
                                 i.add_grade()
+                                print("Grade succesfully added.")
                                 continue
                             case '2':
                                 i.remove_grade()
@@ -135,18 +136,45 @@ class Gradebook():
     def add_student(self):
         student_name = input("Enter name for new student:\n").strip()
         while True:
-            student_level = input("Enter grade level (9th,10th,11th,12th) for new student:\n").strip()
+            student_level = input("Enter grade level (9th, 10th, 11th, 12th) for new student:\n").strip()
             if student_level not in grade_levels:
                 print("Please enter a grade level of 9th, 10th, 11th, or 12th.")
                 continue
+            break
 
+        while True:
             student_id = input("Enter ID for new student:\n").strip()
+
+            if bool(student_id) == False:
+                print("Please actually enter an ID.")
+                continue
+            
+            id_check = False
+
+            for i in self.catalog:
+                if student_id == i.id.strip():
+                    print("There is already a student with that ID in the gradebook. Please enter a different ID.")
+                    id_check = True
+                    break
+            
+            if id_check == True:
+                continue
+
             break
 
         academic_standing = "N/A"
         average = "N/A"
-        
-        self.catalog.append(create_student(student_name,student_id,academic_standing,student_level,average,grades=[]))
+        grade1 = "N/A"
+        grade2 = "N/A"
+        grade3 = "N/A"
+        grade4 = "N/A"
+        grade5 = "N/A"
+        grade6 = "N/A"
+        grade7 = "N/A"
+        grade8 = "N/A"
+        self.catalog.append(create_student(student_name,student_id,academic_standing,student_level,average,grade1,grade2,grade3,grade4,grade5,grade6,grade7,grade8))
+
+        print("Student succesfully added!")
 
         after_action()
         return
@@ -159,34 +187,59 @@ class Gradebook():
 
             for i in self.catalog:
                 if i.id == delete_student:
-                    student_index = find_dict_index(self.catalog,"id",i.id)
+                    student_index = find_object_index(self.catalog,delete_student)
+                    if student_index == -1:
+                        print("Student could not be found.")
+                        after_action()
+                        return
                     self.catalog.pop(student_index)
                     print("Student succesfully removed.")
                     after_action()
                     return
-            
-            print("That student could not be found.")
-            continue
 
     def view_all(self):
         for i in self.catalog:
-            print(i,f" | Letter Grade: {i.calculate_letter}")
+            print(i,f" | Grade Average: {i.average}% | Letter Grade: {i.calculate_letter()}")
 
         after_action()
 
     def find_average(self):
         class_grades = []
+
         for i in self.catalog:   
-            for num in i:
-                class_grades.append(num)
+            if i.average == "N/A":
+                pass
+            else:
+                class_grades.append(float(i.average))
 
         class_sum = sum(class_grades)
-        class_average = sum(class_sum)
+        class_average = (class_sum)/len(class_grades)
 
         return class_average
     
     def find_high_low(self):
-        sorted_catalog = sorted(self.catalog,key=lambda student: student.average)
-        high_student = sorted_catalog[0]
-        low_student = sorted_catalog[-1]
+        class_grades = []
+
+        for i in self.catalog:   
+            if i.average == "N/A":
+                pass
+            else:
+                class_grades.append(float(i.average))
+
+        class_grades.sort()
+
+        high_student = class_grades[-1]
+        low_student = class_grades[0]
+
         return high_student,low_student
+    
+    def save_students(self):
+        with open("documents/students.csv",mode="w",newline="") as students:
+            fieldnames = ['name','id','academic_standing','grade_level','grade1','grade2','grade3','grade4','grade5','grade6','grade7','grade8','average']
+            writer = csv.DictWriter(students,fieldnames)
+            basic_writer = csv.writer(students)
+
+            basic_writer.writerow(fieldnames)
+            
+            for i in self.catalog:
+                writer.writerow(vars(i))

@@ -21,7 +21,7 @@ def main_interface():
 
     for i in students:
         
-        current_gradebook.catalog.append(create_student(i['name'],i['id'],i['academic_standing'],i['grade_level'],i['grades'],i['grade_average']))
+        current_gradebook.catalog.append(create_student(i['name'],i['id'],i['academic_standing'],i['grade_level'],i['average'],i['grade1'],i['grade2'],i['grade3'],i['grade4'],i['grade5'],i['grade6'],i['grade7'],i['grade8'],))
         
     while True:
         
@@ -43,7 +43,7 @@ def main_interface():
                 continue
             case '4':
                 while True:
-                    mode = input("Would you like to search by student name or student ID?").lower().strip()
+                    mode = input("Would you like to search by student name or student ID? ID/Name:\n").lower().strip()
                     if mode != 'name' and mode != 'id':
                         print("Please enter a valid answer.")
                         after_action()
@@ -53,21 +53,28 @@ def main_interface():
                     
                     found_students = current_gradebook.search_student(query,mode)
 
+                    print("Students Found:")
+
                     for i in found_students:
                         print(i)
+                        print(i.view_grades())
 
                     after_action()
+                    break
+                continue
             case '5':
                 current_gradebook.edit_student()
                 continue
             case '6':
                 average = current_gradebook.find_average()
+                average = round(average,2)
                 high, low = current_gradebook.find_high_low()
-                print(f"Class Grade Average: {average}%\nHighest Grade: {high.average}%\nLowest Grade: {low.average}")
+                print(f"Number of students in class: {len(current_gradebook.catalog)}")
+                print(f"Class Grade Average: {average}%\nHighest Grade: {high}%\nLowest Grade: {low}%")
                 after_action()
                 continue
             case '7':
-                save_students(students)
+                current_gradebook.save_students()
                 print("File saved.")
                 after_action
             case '8':
